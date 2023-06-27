@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>@ViewData["Title"] - RSS Reader</title>
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+	<link rel="stylesheet" href="~/lib/bulma/bulma.css"/>
+</head>
+<body>
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+	<div class="navbar-brand">
+		<a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">
+			<img src="images/rss_icon.png" alt="RSS Icon"/>
+		</a>
+		<div class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		</div>
+	</div>
+	<div id="navMenu" class="navbar-menu">
+		<div class="navbar-start">
+			<a class="navbar-item" asp-area="" asp-controller="Home" asp-action="Index">Feeds</a>
+		</div>
+		<div class="navbar-end">
+			<div class="navbar-item">
+				<div class="buttons">
+					<a class="button is-light">Sign Out</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+<section class="section">
+	<div class="container">
+		@RenderBody()
+	</div>
+</section>
+<footer class="footer">
+	<div class="content has-text-centered">
+		<p>
+			<strong>RSS Reader</strong> by <a href="https://www.matthewherman.net">Matthew Herman</a>. The source code is licensed
+			<a href="http://opensource.org/licenses/mit-license.php">MIT</a> and available on <a href="https://github.com/mattherman/rss-reader">Github</a>.
+		</p>
+	</div>
+</footer>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
