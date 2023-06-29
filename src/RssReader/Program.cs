@@ -11,9 +11,9 @@ var googleAuthConfiguration =
 		.GetSection("GoogleAuth")
 		.Get<GoogleAuthOptions>();
 
-if (googleAuthConfiguration.ClientId is null)
+if (googleAuthConfiguration?.ClientId is null)
 	throw new Exception("ClientId must be configured for Google authentication");
-if (googleAuthConfiguration.ClientSecret is null)
+if (googleAuthConfiguration?.ClientSecret is null)
 	throw new Exception("ClientSecret must be configured for Google authentication");
 
 builder.Services

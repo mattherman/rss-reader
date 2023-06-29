@@ -1,0 +1,26 @@
+# This file should be placed in /etc/systemd/system/.
+# See README.md or the link below for more information.
+# https://learn.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-7.0
+
+[Unit]
+Description=RSS Reader ASP.NET Core Web Application
+
+[Service]
+WorkingDirectory=/var/www/rss-reader
+ExecStart=/usr/bin/dotnet /var/www/rss-reader/RssReader.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=rss-reader
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://localhost:5010
+Environment=DATABASE__DATABASEFILE=RssReader.db
+Environment=GOOGLEAUTH__CLIENTID=TODO_ADD_SECRET_KEY
+Environment=GOOGLEAUTH__CLIENTSECRET=TODO_ADD_SECRET_KEY
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
+

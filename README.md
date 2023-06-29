@@ -42,3 +42,61 @@ dotnet user-secrets set "GoogleAuth:ClientSecret" "<client_secret>"
 ASP.NET will automatically load these values into the configuration and make them available via the `GoogleAuth` configuration options class.
 
 The Secrets Manager is only meant to be used for local development in order to avoid checking them into source control. The values are still stored in plain text on your machine. On Linux, they are located in `~/.microsoft/usersecrets/<user_secrets_id>/secrets.json`
+
+## Deployment
+
+### Infrastructure
+
+The following should be added to your Nginx server configuration to setup the reverse proxy:
+
+```
+location /rss-reader {
+        proxy_pass              http://127.0.0.1:5010;
+        proxy_http_version      1.1;
+        proxy_set_header        Upgrade $http_upgrade;
+        proxy_set_header        Connection keep-alive;
+        proxy_set_header        Host $host;
+        proxy_cache_bypass      $http_upgrade;
+        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header        X-Forwarded-Proto $scheme;
+}
+```
+
+You should also setup a systemd service so that the application is run automatically. You can do this by copying the `rss-reader.service` file to `/etc/systemd/system`. You will need to replace the `GOOGLEAUTH__CLIENTID` and `GOOGLEAUTH__CLIENTSECRET` environment variables in this file after copying it.
+
+Once the service file is in place run the following to start the service:
+
+```
+systemctl enable rss-reader.service
+systemctl start rss-reader.service
+```
+
+You can check the status of the service:
+
+```
+systemctl status rss-reader.service
+```
+
+Or view the logs:
+
+```
+journalctl -fu rss-reader.service
+```
+
+### Deploying Changes
+
+Includes Github Actions that will build the site and archive the result.
+
+To deploy the web application, run the following from the server:
+
+```
+wget https://github.com/mattherman/rss-reader/releases/latest/download/server.zip
+unzip server.zip -d /var/www/rss-reader
+systemctl restart rss-reader.service
+```
+
+To perform a database migration, run the following from the server:
+
+```
+TODO
+```
