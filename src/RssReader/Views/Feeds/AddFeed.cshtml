@@ -1,0 +1,21 @@
+@{
+	ViewBag.Title = "Add Feed";
+	Layout = "_Layout";
+}
+
+<h1>Add New Feed</h1>
+<form method="post">
+	<div class="field">
+		<label class="label">Name</label>
+		<div class="control">
+			<input class="input" type="text" name="Name">
+		</div>
+	</div>
+	<div class="field">
+		<label class="label">Feed URL</label>
+		<div class="control">
+			<input class="input" type="text" name="FeedUrl">
+		</div>
+	</div>
+	<button class="button is-primary" type="submit">Add Feed</button>
+</form>

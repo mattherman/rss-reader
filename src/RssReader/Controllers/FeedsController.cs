@@ -19,4 +19,22 @@ public class FeedsController : Controller
 		};
 		return View(dummyFeeds);
 	}
+
+	public IActionResult AddFeed()
+	{
+		return View();
+	}
+
+	[HttpPost]
+	public IActionResult AddFeed([FromForm] AddFeedModel model)
+	{
+		if (string.IsNullOrEmpty(model.Name))
+			return BadRequest("Feed name is required");
+		if (string.IsNullOrEmpty(model.FeedUrl))
+			return BadRequest("Feed URL is required");
+		if (!Uri.TryCreate(model.FeedUrl, UriKind.Absolute, out var feedUrl))
+			return BadRequest("Feed URL must be a valid URI");
+
+		return RedirectToAction("Index");
+	}
 }
