@@ -69,4 +69,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.19" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Schema\001_InitialSchema.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

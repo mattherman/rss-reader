@@ -95,8 +95,20 @@ unzip server.zip -d /var/www/rss-reader
 systemctl restart rss-reader.service
 ```
 
-To perform a database migration, run the following from the server:
+To perform all database migrations using a script, run the following from the server:
 
 ```
-TODO
+cd /var/www/rss-reader
+# Copy run-database-migrations.sh from repository
+chmod +x run-database-migrations.sh
+./run-database-migrations.sh ./Schema
 ```
+
+Or, manually:
+
+```
+cd /var/www/rss-reader
+sqlite3 RssReader.db < ./Schema/XXX_YourMigrationScript.sql
+```
+
+All migration scripts should be written to be backwards-compatible so it is fine to run all of them on each deployment.
