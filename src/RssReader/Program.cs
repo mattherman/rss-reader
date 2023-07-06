@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.HttpOverrides;
 using RssReader.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,16 +32,25 @@ builder.Services
 		options.ClientSecret = googleAuthConfiguration.ClientSecret;
 	});
 
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+	options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
+	app.UseHttpsRedirection();
+	app.UseForwardedHeaders();
+	app.UsePathBase("/rss-reader");
+
 	app.UseExceptionHandler("/Home/Error");
+
 	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 	app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
